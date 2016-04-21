@@ -91,7 +91,7 @@ public class MyFormAppTest {
     @Test
     public void testPdfToimage() throws Exception {
         System.out.println("pdfToimage");
-        File filename = new File("C:\\Users\\ball_\\Downloads\\Documents\\new folder\\5701012630069.pdf");
+        File filename = new File("C:\\Users\\ball_\\Downloads\\Documents\\new folder\\test.pdf");
         MyFormApp instance = new MyFormApp();
         instance.pdfToimage(filename);
         // TODO review the generated test code and remove the default call to fail.
