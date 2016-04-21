@@ -470,6 +470,8 @@ FileUtils.copyFile(source, dest);
     public  void keeplist() throws FileNotFoundException{
         if(listNamePage.isEmpty()== false){
             listNamePage.clear();
+             i=0;
+              model.clear();
         }
         
         File text = new File("C:\\Users\\ball_\\Desktop"+"\\write.txt");
@@ -494,11 +496,12 @@ FileUtils.copyFile(source, dest);
             System.out.println(data[i]);
             String imagename = FilenameUtils.removeExtension(data[i]);
             System.out.println(imagename);
-             String a= findPage("C:\\Users\\ball_\\Desktop",file.getName());
-            model.addElement(new Book(data[i], a, imagename,PATH) ); //ใส่ข้อมูล ลำดับหนังสือ ชื่อรูปภาพ ที่อยู่ของภาพ สำหรับทำไอคอน
+            int a= Integer.parseInt(findPage("C:\\Users\\ball_\\Desktop",file.getName()))+1;
+            model.addElement(new Book(data[i], ""+a, imagename,PATH) ); //ใส่ข้อมูล ลำดับหนังสือ ชื่อรูปภาพ ที่อยู่ของภาพ สำหรับทำไอคอน
             i=i+1;
 
         }
+           
         jList2.setModel(model);
         jList2.setCellRenderer(new BookRenderer());
             // ฟังก์ชั่น LIST หนังสือ
