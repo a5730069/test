@@ -508,8 +508,6 @@ FileUtils.copyFile(source, dest);
         } catch (FileNotFoundException ex) {
             Logger.getLogger(MyFormApp.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        
     }//GEN-LAST:event_jList2AncestorAdded
 
     public static boolean deleteDir(File dir) { //ฟังก์ชั่นลบไฟล์
@@ -537,9 +535,7 @@ FileUtils.copyFile(source, dest);
 
         int i=0;
         String fileNameWithOutExt = FilenameUtils.removeExtension(filename.getName());  
-       
-    
-    
+  
         Rectangle rect = new Rectangle(0, 0, (int) pdf.getPage(i).getBBox().getWidth(), //ตั้งค่ารูป
                 (int) pdf.getPage(i).getBBox().getHeight());
         BufferedImage bufferedImage = new BufferedImage(100, 100,
@@ -589,8 +585,7 @@ FileUtils.copyFile(source, dest);
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new MyFormApp().setVisible(true);
-            }
-            
+            }        
         });
     }
 
