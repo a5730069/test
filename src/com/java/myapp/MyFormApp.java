@@ -75,7 +75,13 @@ public class MyFormApp extends javax.swing.JFrame {
 
             File[] fileList = dir.listFiles(new FilenameFilter() {
                 public boolean accept(File dir, String name) { //ค้นหารายชื่อไฟล์ทั้งหมดในโฟล์เดอร์
+                    if(name.endsWith(".PDF")){
+                    return name.endsWith(".PDF");
+                }
+                if(name.endsWith(".pdf")){
                     return name.endsWith(".pdf");
+                }
+                return false;
                 }
             });
             return fileList;
@@ -106,12 +112,14 @@ FileUtils.copyFile(source, dest);
         jFrame8 = new javax.swing.JFrame();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
-        Openbutton = new javax.swing.JButton();
-        Addbutton = new javax.swing.JButton();
-        Removebutton = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jList2 = new javax.swing.JList<>();
         jPanel5 = new javax.swing.JPanel();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        AddFile = new javax.swing.JMenuItem();
+        RemoveFile = new javax.swing.JMenuItem();
+        Exit = new javax.swing.JMenuItem();
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -219,33 +227,6 @@ FileUtils.copyFile(source, dest);
         jPanel1.setBackground(new java.awt.Color(102, 153, 255));
         jPanel1.setLayout(null);
 
-        Openbutton.setText("Open");
-        Openbutton.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                OpenbuttonMouseClicked(evt);
-            }
-        });
-        jPanel1.add(Openbutton);
-        Openbutton.setBounds(660, 100, 79, 25);
-
-        Addbutton.setText("Add");
-        Addbutton.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                AddbuttonMouseClicked(evt);
-            }
-        });
-        jPanel1.add(Addbutton);
-        Addbutton.setBounds(680, 150, 55, 25);
-
-        Removebutton.setText("Remove");
-        Removebutton.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                RemovebuttonMouseClicked(evt);
-            }
-        });
-        jPanel1.add(Removebutton);
-        Removebutton.setBounds(660, 200, 79, 25);
-
         jList2.setBackground(new java.awt.Color(204, 204, 204));
 
         jList2.addAncestorListener(new javax.swing.event.AncestorListener() {
@@ -257,16 +238,53 @@ FileUtils.copyFile(source, dest);
             public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
             }
         });
+        jList2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jList2MouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(jList2);
 
         jPanel1.add(jScrollPane2);
-        jScrollPane2.setBounds(60, 80, 540, 432);
+        jScrollPane2.setBounds(60, 80, 910, 440);
 
         jTabbedPane1.addTab("      main     ", jPanel1);
 
         jPanel5.setBackground(new java.awt.Color(102, 153, 255));
         jPanel5.setLayout(new javax.swing.OverlayLayout(jPanel5));
         jTabbedPane1.addTab("       Display PDF     ", jPanel5);
+
+        jMenu1.setText("File");
+
+        AddFile.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        AddFile.setText("Add File");
+        AddFile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AddFileActionPerformed(evt);
+            }
+        });
+        jMenu1.add(AddFile);
+
+        RemoveFile.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        RemoveFile.setText("Remove File");
+        RemoveFile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RemoveFileActionPerformed(evt);
+            }
+        });
+        jMenu1.add(RemoveFile);
+
+        Exit.setText("Exit");
+        Exit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ExitActionPerformed(evt);
+            }
+        });
+        jMenu1.add(Exit);
+
+        jMenuBar1.add(jMenu1);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -286,91 +304,6 @@ FileUtils.copyFile(source, dest);
 
         setBounds(0, 0, 1074, 830);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void RemovebuttonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RemovebuttonMouseClicked
-        // TODO add your handling code here:JDialog.setDefaultLookAndFeelDecorated(true);
-        //ฟังก์ชั่นจะทำการลบ รายชื่อไฟล์ที่ต้องการ ลบ เมื่อกดปุ่มลบ
-        int index = jList2.getSelectedIndex(); //ตำแหน่งรายชื่อที่เลือก
-        int response = JOptionPane.showConfirmDialog(null, "Do you want to delete "+model.getElementAt(index)+" ?", "Confirm", //หน้าต่างแจ้งเตือนคอนเฟิร์มเพื่อลบ
-            JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-        try {
-            String a = findPage("C:\\Users\\ball_\\Desktop",""+model.getElementAt(index));
-             System.out.println(model.getElementAt(index));
-        if (response == JOptionPane.YES_OPTION) {//กดตกลงจะทำตามเงื่อนไข
-
-            if (model.getSize() > 0)
-            System.out.println( PATH+model.getElementAt(index));//แสดงรายชื่อที่ลบ
-            deleteFromFile(listNamePage,model.getElementAt(index)+"["+a+"]");
-            deleteDir(new File(PATH+model.getElementAt(index)));//ลบไฟล์ pdf ในโฟล์เดอร์
-            deleteDir(new File(PATH+model.getElementAt(index).getIconName()+".png"));//ลบไฟล์รูปในโฟล์เดอร์
-            model.removeElementAt(index);//ลบรายชื่อ ในหนน้าต่างLIST
-                
-        }
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(MyFormApp.class.getName()).log(Level.SEVERE, null, ex);
-        }
-       
-    }//GEN-LAST:event_RemovebuttonMouseClicked
-
-    private void AddbuttonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AddbuttonMouseClicked
-        // TODO add your handling code here:
-        //ฟังก์ชั่น เพิ่มหนังสือเมื่อกดปุ่มเพิ่ม
-        JFileChooser fileChooser = new JFileChooser(); //เปิดหน้าต่างเลือกไฟล์
-        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-      fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("PDF Documents", "pdf"));//แสดงเฉพาะpdf
-      fileChooser.setAcceptAllFileFilterUsed(false);
-        int returnValue = fileChooser.showOpenDialog(null);
-        if (returnValue == JFileChooser.APPROVE_OPTION) {//เมื่อเลือกไฟล์แล้วตกตกลง
-            File selectedFile = fileChooser.getSelectedFile(); 
-            try {
-                pdfToimage(selectedFile); //ทำการเซฟรูปหน้าปกของไฟล์ที่เลือก
-                listNamePage.add(selectedFile.getName()+"[0]");
-                WriteToFile(listNamePage);
-           
-
-            System.out.println(selectedFile.getName()); //แสดงรายชื่อที่หนังสือที่เลือกเพิ่ม
-            File source = new File(""+selectedFile);
-            File dest = new File(PATH+ selectedFile.getName());
-            //copy file conventional way using Stream
-            long start = System.nanoTime();
-            //copy files using apache commons io
-            start = System.nanoTime();
-            
-            String a = findPage("C:\\Users\\ball_\\Desktop",""+selectedFile.getName());
-          
-               
-                 String imagename = FilenameUtils.removeExtension(selectedFile.getName());
-           
-            model.addElement(new Book(selectedFile.getName(), a , imagename,PATH)); //ใส่รายชื่อในlist
-           
-           
-        
-            jList2.setModel(model);
-            jList2.setCellRenderer(new BookRenderer());
-           
-                copyFileUsingApacheCommonsIO(source, dest); //ก็อปปี้ไฟล์ไปใส่ในโฟล์เดอร์เฉพาะ
-           
-
-            System.out.println("Time taken by Apache Commons IO Copy = "+(System.nanoTime()-start));
-             } catch (IOException ex) {
-                Logger.getLogger(MyFormApp.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    }//GEN-LAST:event_AddbuttonMouseClicked
-
-    private void OpenbuttonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_OpenbuttonMouseClicked
-        // TODO add your handling code here:
-        int index = jList2.getSelectedIndex();
-        
-        System.out.println( model.getElementAt(index)); //แสดงรายชื่อไฟล์ที่เปิด
-        try {
-            
-            openMenuItemActionPerformed(); //เรียกใช้ฟังก์ชั่นเพื่อเปิด หนังสือ ในแทปที่ 2
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(MyFormApp.class.getName()).log(Level.SEVERE, null, ex);
-        }
-     
-    }//GEN-LAST:event_OpenbuttonMouseClicked
    String oldname=null;
             int oldpage ;
             // build a component controller
@@ -463,8 +396,7 @@ FileUtils.copyFile(source, dest);
 	}
         ArrayList<String> listNamePage = new ArrayList<String>();
     int i =0;    
-        File[] fileList = getFileList("C:\\Users\\ball_\\Downloads\\Documents\\new folder"); //เรียกใช้ฟังก์ชั่นหารายชื่อไฟล์ แล้วเก็บรายชื่อไฟล์
-        String[] data = new String[fileList.length];  
+          
         String PATH = "C:\\Users\\ball_\\Downloads\\Documents\\new folder\\"; //ที่อยู่ที่เก็บไฟล์หนังสือและภาพ
         DefaultListModel<Book> model = new DefaultListModel();  //ตั้งตัวแปรทำ icon สำหรับ LIST
     public  void keeplist() throws FileNotFoundException{
@@ -488,6 +420,9 @@ FileUtils.copyFile(source, dest);
     }
     private void jList2AncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jList2AncestorAdded
         try {
+            
+            File[] fileList = getFileList("C:\\Users\\ball_\\Downloads\\Documents\\new folder"); //เรียกใช้ฟังก์ชั่นหารายชื่อไฟล์ แล้วเก็บรายชื่อไฟล์
+            String[] data = new String[fileList.length];
             // TODO add your handling code here:
             keeplist();
             for(File file : fileList) {  //ไล่รายชื่อ
@@ -509,6 +444,110 @@ FileUtils.copyFile(source, dest);
             Logger.getLogger(MyFormApp.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jList2AncestorAdded
+
+    private void RemoveFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RemoveFileActionPerformed
+        // TODO add your handling code here:JDialog.setDefaultLookAndFeelDecorated(true);
+        //ฟังก์ชั่นจะทำการลบ รายชื่อไฟล์ที่ต้องการ ลบ เมื่อกดปุ่มลบ
+        int index = jList2.getSelectedIndex(); //ตำแหน่งรายชื่อที่เลือก
+        int response = JOptionPane.showConfirmDialog(null, "Do you want to delete "+model.getElementAt(index)+" ?", "Confirm", //หน้าต่างแจ้งเตือนคอนเฟิร์มเพื่อลบ
+            JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        try {
+            String a = findPage("C:\\Users\\ball_\\Desktop",""+model.getElementAt(index));
+             System.out.println(model.getElementAt(index));
+        if (response == JOptionPane.YES_OPTION) {//กดตกลงจะทำตามเงื่อนไข
+
+            if (model.getSize() > 0)
+            System.out.println( PATH+model.getElementAt(index));//แสดงรายชื่อที่ลบ
+            deleteFromFile(listNamePage,model.getElementAt(index)+"["+a+"]");
+            deleteDir(new File(PATH+model.getElementAt(index)));//ลบไฟล์ pdf ในโฟล์เดอร์
+            deleteDir(new File(PATH+model.getElementAt(index).getIconName()+".png"));//ลบไฟล์รูปในโฟล์เดอร์
+            model.removeElementAt(index);//ลบรายชื่อ ในหนน้าต่างLIST
+                
+        }
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(MyFormApp.class.getName()).log(Level.SEVERE, null, ex);
+        }
+       
+    }//GEN-LAST:event_RemoveFileActionPerformed
+
+    private void AddFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddFileActionPerformed
+        // TODO add your handling code here:
+           // TODO add your handling code here:
+        //ฟังก์ชั่น เพิ่มหนังสือเมื่อกดปุ่มเพิ่ม
+        JFileChooser fileChooser = new JFileChooser(); //เปิดหน้าต่างเลือกไฟล์
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+      fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("PDF Documents", "pdf"));//แสดงเฉพาะpdf
+      fileChooser.setAcceptAllFileFilterUsed(false);
+        int returnValue = fileChooser.showOpenDialog(null);
+        if (returnValue == JFileChooser.APPROVE_OPTION) {//เมื่อเลือกไฟล์แล้วตกตกลง
+            File selectedFile = fileChooser.getSelectedFile(); 
+            try {
+                pdfToimage(selectedFile); //ทำการเซฟรูปหน้าปกของไฟล์ที่เลือก
+                listNamePage.add(selectedFile.getName()+"[0]");
+                WriteToFile(listNamePage);
+           
+
+            System.out.println(selectedFile.getName()); //แสดงรายชื่อที่หนังสือที่เลือกเพิ่ม
+            File source = new File(""+selectedFile);
+            File dest = new File(PATH+ selectedFile.getName());
+            //copy file conventional way using Stream
+            long start = System.nanoTime();
+            //copy files using apache commons io
+            start = System.nanoTime();
+            
+            String a = findPage("C:\\Users\\ball_\\Desktop",""+selectedFile.getName());
+          
+               
+                 String imagename = FilenameUtils.removeExtension(selectedFile.getName());
+           
+            model.addElement(new Book(selectedFile.getName(), a , imagename,PATH)); //ใส่รายชื่อในlist
+           
+           
+        
+            jList2.setModel(model);
+            jList2.setCellRenderer(new BookRenderer());
+           
+                copyFileUsingApacheCommonsIO(source, dest); //ก็อปปี้ไฟล์ไปใส่ในโฟล์เดอร์เฉพาะ
+           
+
+            System.out.println("Time taken by Apache Commons IO Copy = "+(System.nanoTime()-start));
+             } catch (IOException ex) {
+                Logger.getLogger(MyFormApp.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_AddFileActionPerformed
+
+    private void jList2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList2MouseClicked
+        // TODO add your handling code here:
+          JList list = (JList)evt.getSource();
+    if (evt.getClickCount() == 2) {
+        // TODO add your handling code here:
+        int index = jList2.getSelectedIndex();
+        
+        System.out.println( model.getElementAt(index)); //แสดงรายชื่อไฟล์ที่เปิด
+        try {
+            
+            openMenuItemActionPerformed(); //เรียกใช้ฟังก์ชั่นเพื่อเปิด หนังสือ ในแทปที่ 2
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(MyFormApp.class.getName()).log(Level.SEVERE, null, ex);
+        }
+     
+    }
+    }//GEN-LAST:event_jList2MouseClicked
+
+    private void ExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExitActionPerformed
+        // TODO add your handling code here:
+         int response = JOptionPane.showConfirmDialog(null, "Do you want to close window", "Confirm", //หน้าต่างแจ้งเตือนคอนเฟิร์มเพื่อลบ
+            JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+       
+            
+        if (response == JOptionPane.YES_OPTION) {//กดตกลงจะทำตามเงื่อนไข
+             System.exit(0);
+           
+        }
+       
+       
+    }//GEN-LAST:event_ExitActionPerformed
 
     public static boolean deleteDir(File dir) { //ฟังก์ชั่นลบไฟล์
       if (dir.isDirectory()) {
@@ -590,9 +629,9 @@ FileUtils.copyFile(source, dest);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton Addbutton;
-    private javax.swing.JButton Openbutton;
-    private javax.swing.JButton Removebutton;
+    private javax.swing.JMenuItem AddFile;
+    private javax.swing.JMenuItem Exit;
+    private javax.swing.JMenuItem RemoveFile;
     private javax.swing.Box.Filler filler1;
     private javax.swing.JColorChooser jColorChooser1;
     private javax.swing.JFrame jFrame1;
@@ -604,6 +643,8 @@ FileUtils.copyFile(source, dest);
     private javax.swing.JFrame jFrame7;
     private javax.swing.JFrame jFrame8;
     private javax.swing.JList<Book> jList2;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
